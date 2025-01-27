@@ -19,6 +19,7 @@ public class TileManager {
         tile = new Tile[10];
         mapTileNum = new int[gp.maxScreenCol][gp.maxScreenRow];
         getTileImage();
+        loadMap();
     }
 
     public void getTileImage() {
@@ -41,8 +42,29 @@ public class TileManager {
 
     public void loadMap(){
         try {
-            InputStream is = getClass().getResourceAsStream("res/maps/map01.txt");
+            InputStream is = getClass().getResourceAsStream("/res/maps/map01.txt");
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
+
+            int col = 0;
+            int row = 0;
+
+            while (col < gp.maxScreenCol && row < gp.maxScreenRow) {
+                String line = br.readLine();
+                
+                while (col < gp.maxScreenCol) {
+                    String numbers[] = line.trim().split("\\s+");
+
+                    int lineIndex = Integer.parseInt(numbers[col]);
+
+                    mapTileNum[col][row] = lineIndex;
+                    col++;
+                }
+                if (col == gp.maxScreenCol) {
+                    col = 0;
+                    row++;
+                }
+            }
+            br.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -55,8 +77,10 @@ public class TileManager {
         int y = 0;
 
         while (col < gp.maxScreenCol && row < gp.maxScreenRow) {
+
+            int tileNum = mapTileNum[col][row];
             
-            g2D.drawImage(tile[0].image, x, y, gp.tileSize, gp.tileSize, null);
+            g2D.drawImage(tile[tileNum].image, x, y, gp.tileSize, gp.tileSize, null);
             col++;
             x+= gp.tileSize;
 
