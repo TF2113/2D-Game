@@ -2,16 +2,22 @@ package tile;
 
 import javax.imageio.ImageIO;
 import java.awt.Graphics2D;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
 import main.GamePanel;
 
 public class TileManager {
 
     GamePanel gp;
     Tile[] tile;
+    int mapTileNum[][];
 
     public TileManager(GamePanel gp) {
         this.gp = gp;
         tile = new Tile[10];
+        mapTileNum = new int[gp.maxScreenCol][gp.maxScreenRow];
         getTileImage();
     }
 
@@ -33,6 +39,14 @@ public class TileManager {
         }
     }
 
+    public void loadMap(){
+        try {
+            InputStream is = getClass().getResourceAsStream("res/maps/map01.txt");
+            BufferedReader br = new BufferedReader(new InputStreamReader(is));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     public void draw(Graphics2D g2D) {
 
         int col = 0;
