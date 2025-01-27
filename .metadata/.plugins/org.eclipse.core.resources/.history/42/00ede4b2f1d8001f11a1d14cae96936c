@@ -1,0 +1,77 @@
+/**
+ * 
+ */
+package entity;
+
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
+import main.GamePanel;
+import main.KeyHandler;
+
+/**
+ * 
+ */
+public class Player extends Entity {
+
+	GamePanel gamePanel;
+	KeyHandler keyHandler;
+
+	public Player(GamePanel gamePanel, KeyHandler keyHandler) {
+		this.gamePanel = gamePanel;
+		this.keyHandler = keyHandler;
+		setDefaultValues();
+		getPlayerImage();
+	}
+
+	public void setDefaultValues() {
+		xPos = 100;
+		yPos = 100;
+		entitySpeed = 4;
+		defaultDirection = "down";
+	}
+	
+	public void getPlayerImage() {
+		try {
+			up1 = ImageIO.read(getClass().getResourceAsStream("player/boy_up_1.png"));
+			up2 = ImageIO.read(getClass().getResourceAsStream("player/boy_up_2.png"));
+			down1 = ImageIO.read(getClass().getResourceAsStream("player/boy_down_1.png"));
+			down2 = ImageIO.read(getClass().getResourceAsStream("player/boy_down_2.png"));
+			left1 = ImageIO.read(getClass().getResourceAsStream("player/boy_left_1.png"));
+			left2 = ImageIO.read(getClass().getResourceAsStream("player/boy_left_2.png"));
+			right1 = ImageIO.read(getClass().getResourceAsStream("player/boy_right_1.png"));
+			right2 = ImageIO.read(getClass().getResourceAsStream("player/boy_right_2.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void update() {
+		// Vertical movement: up vs. down
+		if (keyHandler.upPressed && !keyHandler.downPressed) {
+			direction = "up";
+			yPos -= entitySpeed;
+		} else if (keyHandler.downPressed && !keyHandler.upPressed) {
+			direction = "down";
+			yPos += entitySpeed;
+		}
+
+		// Horizontal movement: left vs. right
+		if (keyHandler.leftPressed && !keyHandler.rightPressed) {
+			direction = "left";
+			xPos -= entitySpeed;
+		} else if (keyHandler.rightPressed && !keyHandler.leftPressed) {
+			direction = "right";
+			xPos += entitySpeed;
+		}
+	}
+
+	public void draw(Graphics2D g2D) {
+		g2D.setColor(Color.white);
+		g2D.fillRect(xPos, yPos, gamePanel.tileSize, gamePanel.tileSize);
+
+	}
+}
