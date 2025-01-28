@@ -28,9 +28,9 @@ public class Player extends Entity {
 	}
 
 	public void setDefaultValues() {
-		xPos = 100;
-		yPos = 100;
-		entitySpeed = 4;
+		xPos = 355;
+		yPos = 140;
+		entitySpeed = 3;
 		direction = "down";
 	}
 
